@@ -3,16 +3,9 @@ PUBLIC	main
 _TEXT	SEGMENT
 IoStatusBlock$ = 96
 
-; Remove need for EXTRN NtWriteFile:PROC
-NtWriteFile PROC
-	mov r10, rcx
-	mov eax, 8
-	syscall
-	ret
-NtWriteFile ENDP
-
-; Remove need for EXTRN GetStdHandle:PROC
-GetStdHandle PROC
+main	PROC
+	mov	ecx, -11				; fffffff5H
+	;call GetStdHandle
 	push rbx
 	sub rsp, 32
 	mov rax, QWORD PTR gs:[96]
@@ -23,12 +16,7 @@ GetStdHandle PROC
 	mov rax, rbx
 	add rsp, 32
 	pop rbx
-	ret
-GetStdHandle ENDP
-
-main	PROC
-	mov	ecx, -11  ; fffffff5H
-	call GetStdHandle
+	;end GetStdHandle
 	mov	rcx, rax
 	mov	QWORD PTR [rsp+64], 0
 	mov	DWORD PTR [rsp+56], 0
@@ -41,7 +29,14 @@ main	PROC
 	xor	r9d, r9d
 	xor	r8d, r8d
 	xor	edx, edx
-	call NtWriteFile
+	;call NtWriteFile
+	push rax  ; Fix stack alignment by adding 8 bytes
+	mov r10, rcx
+	mov eax, 8
+	syscall
+	pop rax  ; Undo fix
+	ret
+	;end NtWriteFile
 	ret	0
 main	ENDP
 
