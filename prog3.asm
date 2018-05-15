@@ -6,16 +6,10 @@ IoStatusBlock$ = 96
 main	PROC
 	mov	ecx, -11				; fffffff5H
 	;call GetStdHandle
-	push rbx
-	sub rsp, 32
-	mov rax, QWORD PTR gs:[96]
-	mov rcx, QWORD PTR [rax+32]
 	mov rax, QWORD PTR gs:[96]
 	mov rcx, QWORD PTR [rax+32]
 	mov rbx, QWORD PTR [rcx+40] ; This effectively gets 0x4C (76)
 	mov rax, rbx
-	add rsp, 32
-	pop rbx
 	;end GetStdHandle
 	mov	rcx, rax
 	mov	QWORD PTR [rsp+64], 0
