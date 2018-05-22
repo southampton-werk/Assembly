@@ -1,7 +1,6 @@
 PUBLIC	main
 
 _TEXT	SEGMENT
-IoStatusBlock$ = 96
 
 main	PROC
 	mov ecx, -11  ; fffffff5H
@@ -16,7 +15,7 @@ main	PROC
 	mov DWORD PTR [rsp+48], 19
 	lea rax, QWORD PTR pwned
 	mov QWORD PTR [rsp+40], rax
-	lea rax, QWORD PTR IoStatusBlock$[rsp]
+	lea rax, QWORD PTR [rsp+96]
 	mov QWORD PTR [rsp+32], rax
 	xor r9d, r9d
 	xor r8d, r8d
